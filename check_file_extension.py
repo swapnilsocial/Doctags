@@ -1,5 +1,6 @@
 import os
 
+parent_dir = '/data/'
 data_path = '/data/sampledata'
 
 
@@ -33,6 +34,11 @@ def categorize(data_path):
         fn, fext = split_name_ext(f)
         print(fn, fext[1:])
     # create folders and add files
-    if
+        if os.path.isdir(f.lower()):
+            pass
+        else:
+            os.mkdir(os.path.join(parent_dir, f.lower))
+
+
 
 categorize(data_path)
