@@ -48,5 +48,6 @@ def categorize(path):
                 print('Moved file ' + f + ' to ' + dirc + '/' + the_filename)
 
 
-
+# to be called from the main file
 categorize(data_path)
+
