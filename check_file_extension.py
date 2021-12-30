@@ -1,5 +1,4 @@
 import os
-from typing import Any, Union, Tuple
 
 parent_dir = '/home/swapnil/github/Doctags/data'
 data_path = '/home/swapnil/github/Doctags/data/sampledata'
@@ -29,7 +28,7 @@ def fetch_all_files(dir_name):
 
 
 def categorize(path):
-    if len(os.listdir(path)) == 0:
+    if len(os.listdir(path)) == 1 and :
         print('Files not found in the provided folder')
     else:
         af = fetch_all_files(path)
