@@ -1,8 +1,26 @@
-from random import shuffle as shuf
-
-from nltk.tokenize import word_tokenize
+import os
+import shutil
 from collections import OrderedDict
-threshold = 2
+from random import shuffle as shuf
+import re
+from nltk.tokenize import word_tokenize
+
+threshold = 4
+limit = 100
+USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
+base_template = os.path.join(USER_FOLDER + "/static", "tagcloud_template.html")
+final_template = os.path.join(USER_FOLDER + "/static/saved_doctags", "tagcloud.html")
+
+
+# defining the replace method
+def replace(file_path, text, subs, flags=0):
+    with open(file_path, "r+") as file:
+        file_contents = file.read()
+        text_pattern = re.compile(re.escape(text), flags)
+        file_contents = text_pattern.sub(subs, file_contents)
+        file.seek(0)
+        file.truncate()
+        file.write(file_contents)
 
 
 def wordcount(str):
@@ -35,26 +53,38 @@ def remove_stopwords(text):
     return filtered_sentence
 
 
-with open(r"/home/swapnil/github/Doctags/data/txt/sample.txt") as filedata:
-    contents = filedata.read().lower()
-content_without_stopwords = remove_stopwords(contents)
-occurrence = wordcount(content_without_stopwords)
-# final_dict = OrderedDict(sorted(occurrence.items(), key=lambda x: x[1], reverse=True))
-print(occurrence)
-sum_values = sum(occurrence.values())
+def parse_text_file(input_file):
+    with open(r'{}'.format(input_file)) as filedata:
+        contents = filedata.read().lower()
+    content_without_stopwords = remove_stopwords(contents)
+    occurrence = wordcount(content_without_stopwords)
+    if len(occurrence) < 100:
+        final_dict = OrderedDict(sorted(occurrence.items(), key=lambda x: x[1], reverse=True))
+    else:
+        dt = OrderedDict(sorted(occurrence.items(), key=lambda x: x[1], reverse=True))
+        final_dict = {A: N for (A, N) in [x for x in dt.items()][:60]}
+    # print(occurrence)
+    sum_values = sum(final_dict.values())
 
-#suffle the keys
-keys = list(occurrence.keys())  # List of keys
-shuf(keys)
-print(keys)
-for key in keys:
-    # key = int(key)
-    v = occurrence[key]
-    weight = round(((v * 3 / sum_values) * 100)) + 2
-    if v > threshold:
-        print("<li><a href=\"\" data-weight=\"{}\">{}</a></li>".format(weight, key))
+    # shuffle the keys in the dictionary (now python dict are ordered by default)
 
-# for k, v in occurrence.items():
-#     weight = round(((v * 3/sum_values) * 100)) + 1
-#     if v > threshold:
-#         print("<li><a href=\"\" data-weight=\"{}\">{}</a></li>".format(weight, k))
+    keys = list(final_dict.keys())  # List of keys
+    shuf(keys)
+
+    # templating the tags in html format
+
+    tags_and_links = ''' <li><a href=\"\" data-weight=\"{}\">{}</a></li>'''
+    tags_list = ''''''
+    for key in keys:
+        v = occurrence[key]
+        weight = round(((v * 3 / sum_values) * 100)) + 2
+        if v > threshold:
+            tags_list = tags_list + '\n' + tags_and_links.format(weight, key)
+
+    # replace tag_list with DOCTAG_TOKEN_TO_BE_REPLACED in tagcloud_template.html and store in static/saved_doctags
+    shutil.copy(base_template, final_template)
+    replace(final_template, 'DOCTAG_TOKEN_TO_BE_REPLACED', tags_list)
+
+
+# calling the parse function for text files
+parse_text_file('/home/swapnil/github/Doctags/data/txt/test_3.txt')

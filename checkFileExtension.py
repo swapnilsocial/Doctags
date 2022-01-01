@@ -28,7 +28,7 @@ def fetch_all_files(dir_name):
 
 
 def categorize(path):
-    if len(os.listdir(path)) == 1 and :
+    if len(os.listdir(path)) == 0:
         print('Files not found in the provided folder')
     else:
         af = fetch_all_files(path)
