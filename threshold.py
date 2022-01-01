@@ -1,6 +1,8 @@
+from random import shuffle as shuf
+
 from nltk.tokenize import word_tokenize
 from collections import OrderedDict
-threshold = 3
+threshold = 2
 
 
 def wordcount(str):
@@ -37,9 +39,22 @@ with open(r"/home/swapnil/github/Doctags/data/txt/sample.txt") as filedata:
     contents = filedata.read().lower()
 content_without_stopwords = remove_stopwords(contents)
 occurrence = wordcount(content_without_stopwords)
-final_dict = OrderedDict(sorted(occurrence.items(), key=lambda x: x[1], reverse=True))
-print(final_dict)
+# final_dict = OrderedDict(sorted(occurrence.items(), key=lambda x: x[1], reverse=True))
+print(occurrence)
+sum_values = sum(occurrence.values())
 
-for k, v in final_dict.items():
+#suffle the keys
+keys = list(occurrence.keys())  # List of keys
+shuf(keys)
+print(keys)
+for key in keys:
+    # key = int(key)
+    v = occurrence[key]
+    weight = round(((v * 3 / sum_values) * 100)) + 2
     if v > threshold:
-        print(k, v)
+        print("<li><a href=\"\" data-weight=\"{}\">{}</a></li>".format(weight, key))
+
+# for k, v in occurrence.items():
+#     weight = round(((v * 3/sum_values) * 100)) + 1
+#     if v > threshold:
+#         print("<li><a href=\"\" data-weight=\"{}\">{}</a></li>".format(weight, k))
