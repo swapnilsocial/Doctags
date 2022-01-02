@@ -1,10 +1,35 @@
  <!DOCTYPE html>
 <html>
+ <title>VOTING ARENA</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Swapnilsocial">
+<link rel="stylesheet" href="{{ url_for('static',filename='tagcloud.css')}}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<style>
+body, html {
+  height: 100%;
+  font-family: 'Josefin Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.bgimg {
+  background-position: center;
+  background-size: cover;
+  background-image: url("static/logo.png");
+  min-height: 75%;
+}
+
+.menu {
+  display: none;
+}
+</style>
+
 <head>
-<link rel="stylesheet" href="tagcloud.css"/>
 
 </head>
 <body>
+
 <ul class="cloud" role="navigation" aria-label="Webdev word cloud">
 
 DOCTAG_TOKEN_TO_BE_REPLACED
