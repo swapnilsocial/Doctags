@@ -1,28 +1,12 @@
  <!DOCTYPE html>
 <html>
- <title>VOTING ARENA</title>
+ <title>DocTagCloud</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Swapnilsocial">
-<link rel="stylesheet" href="{{ url_for('static',filename='tagcloud.css')}}">
+<link rel="stylesheet"  type="text/css" href="{{ url_for('static', filename='tagcloud.css')}}">
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <style>
-body, html {
-  height: 100%;
-  font-family: 'Josefin Sans', sans-serif;
-  overflow-x: hidden;
-}
-
-.bgimg {
-  background-position: center;
-  background-size: cover;
-  background-image: url("static/logo.png");
-  min-height: 75%;
-}
-
-.menu {
-  display: none;
-}
 </style>
 
 <head>
@@ -30,71 +14,95 @@ body, html {
 </head>
 <body>
 
+<div>
+
 <ul class="cloud" role="navigation" aria-label="Webdev word cloud">
 
 
- <li><a href="" data-weight="7">illustration</a></li>
- <li><a href="" data-weight="7">rocky</a></li>
- <li><a href="" data-weight="5">distance</a></li>
- <li><a href="" data-weight="4">mr.</a></li>
- <li><a href="" data-weight="5">columbia</a></li>
- <li><a href="" data-weight="5">slope</a></li>
- <li><a href="" data-weight="6">rock</a></li>
- <li><a href="" data-weight="6">robson</a></li>
- <li><a href="" data-weight="7">parks</a></li>
- <li><a href="" data-weight="8">time</a></li>
- <li><a href="" data-weight="5">creek</a></li>
- <li><a href="" data-weight="5">view</a></li>
- <li><a href="" data-weight="5">white</a></li>
- <li><a href="" data-weight="4">south</a></li>
- <li><a href="" data-weight="7">rockies</a></li>
- <li><a href="" data-weight="11">mount</a></li>
- <li><a href="" data-weight="5">banff</a></li>
- <li><a href="" data-weight="5">green</a></li>
- <li><a href="" data-weight="6">west</a></li>
- <li><a href="" data-weight="6">good</a></li>
- <li><a href="" data-weight="6">road</a></li>
- <li><a href="" data-weight="7">railway</a></li>
- <li><a href="" data-weight="7">long</a></li>
- <li><a href="" data-weight="8">pacific</a></li>
- <li><a href="" data-weight="7">peaks</a></li>
- <li><a href="" data-weight="7">glacier</a></li>
- <li><a href="" data-weight="17">lake</a></li>
- <li><a href="" data-weight="5">main</a></li>
- <li><a href="" data-weight="9">pass</a></li>
- <li><a href="" data-weight="10">trail</a></li>
- <li><a href="" data-weight="5">reached</a></li>
- <li><a href="" data-weight="5">sir</a></li>
  <li><a href="" data-weight="6">great</a></li>
- <li><a href="" data-weight="6">jasper</a></li>
- <li><a href="" data-weight="8">snow</a></li>
+ <li><a href="" data-weight="10">trail</a></li>
+ <li><a href="" data-weight="6">west</a></li>
  <li><a href="" data-weight="9">summit</a></li>
- <li><a href="" data-weight="5">camp</a></li>
- <li><a href="" data-weight="5">alpine</a></li>
- <li><a href="" data-weight="5">foot</a></li>
- <li><a href="" data-weight="16">mountain</a></li>
- <li><a href="" data-weight="5">steep</a></li>
- <li><a href="" data-weight="12">canadian</a></li>
- <li><a href="" data-weight="6">day</a></li>
- <li><a href="" data-weight="5">range</a></li>
- <li><a href="" data-weight="8">miles</a></li>
- <li><a href="" data-weight="6">route</a></li>
- <li><a href="" data-weight="5">ridge</a></li>
- <li><a href="" data-weight="12">feet</a></li>
- <li><a href="" data-weight="5">canada</a></li>
- <li><a href="" data-weight="12">park</a></li>
- <li><a href="" data-weight="8">peak</a></li>
  <li><a href="" data-weight="5">caves</a></li>
- <li><a href="" data-weight="6">years</a></li>
- <li><a href="" data-weight="5">beautiful</a></li>
- <li><a href="" data-weight="6">climb</a></li>
- <li><a href="" data-weight="12">valley</a></li>
- <li><a href="" data-weight="7">river</a></li>
+ <li><a href="" data-weight="7">illustration</a></li>
+ <li><a href="" data-weight="5">green</a></li>
  <li><a href="" data-weight="5">trails</a></li>
- <li><a href="" data-weight="6">north</a></li>
+ <li><a href="" data-weight="6">robson</a></li>
+ <li><a href="" data-weight="4">mr.</a></li>
+ <li><a href="" data-weight="5">camp</a></li>
+ <li><a href="" data-weight="6">day</a></li>
+ <li><a href="" data-weight="8">snow</a></li>
+ <li><a href="" data-weight="4">south</a></li>
+ <li><a href="" data-weight="5">distance</a></li>
+ <li><a href="" data-weight="8">time</a></li>
+ <li><a href="" data-weight="8">peak</a></li>
+ <li><a href="" data-weight="5">ridge</a></li>
+ <li><a href="" data-weight="5">creek</a></li>
+ <li><a href="" data-weight="7">peaks</a></li>
+ <li><a href="" data-weight="12">park</a></li>
+ <li><a href="" data-weight="6">route</a></li>
+ <li><a href="" data-weight="5">main</a></li>
+ <li><a href="" data-weight="5">view</a></li>
+ <li><a href="" data-weight="7">parks</a></li>
  <li><a href="" data-weight="15">mountains</a></li>
+ <li><a href="" data-weight="12">feet</a></li>
+ <li><a href="" data-weight="12">canadian</a></li>
+ <li><a href="" data-weight="5">reached</a></li>
+ <li><a href="" data-weight="5">foot</a></li>
+ <li><a href="" data-weight="6">road</a></li>
+ <li><a href="" data-weight="7">river</a></li>
+ <li><a href="" data-weight="5">beautiful</a></li>
+ <li><a href="" data-weight="7">railway</a></li>
+ <li><a href="" data-weight="5">columbia</a></li>
+ <li><a href="" data-weight="5">canada</a></li>
+ <li><a href="" data-weight="5">sir</a></li>
+ <li><a href="" data-weight="7">rocky</a></li>
+ <li><a href="" data-weight="8">pacific</a></li>
+ <li><a href="" data-weight="5">white</a></li>
+ <li><a href="" data-weight="16">mountain</a></li>
+ <li><a href="" data-weight="6">climb</a></li>
+ <li><a href="" data-weight="7">long</a></li>
+ <li><a href="" data-weight="6">years</a></li>
+ <li><a href="" data-weight="6">rock</a></li>
+ <li><a href="" data-weight="5">banff</a></li>
+ <li><a href="" data-weight="5">range</a></li>
+ <li><a href="" data-weight="9">pass</a></li>
+ <li><a href="" data-weight="7">rockies</a></li>
+ <li><a href="" data-weight="7">glacier</a></li>
+ <li><a href="" data-weight="5">steep</a></li>
+ <li><a href="" data-weight="6">jasper</a></li>
+ <li><a href="" data-weight="11">mount</a></li>
+ <li><a href="" data-weight="17">lake</a></li>
+ <li><a href="" data-weight="6">north</a></li>
+ <li><a href="" data-weight="6">good</a></li>
+ <li><a href="" data-weight="5">alpine</a></li>
+ <li><a href="" data-weight="5">slope</a></li>
+ <li><a href="" data-weight="12">valley</a></li>
+ <li><a href="" data-weight="8">miles</a></li>
 
 </ul>
+
+</div>
+<!-- Footer -->
+<div>
+</div>
+   <footer class="footer footer-default" id="aboutus" >
+        <div class="container">
+            <div class="copyright w3-center">
+  <p>Author: Swapnil Joshi<br>
+  <a href="mailto:swapniljoshisj20@gmail.com">swapniljoshisj20@gmail.com</a><br>
+  <a href="https://github.com/swapnilsocial">swapnilsocial@github</a><br>
+  <a href="https://www.linkedin.com/in/swapnilsocial">swapnilsocial@linkedin</a></p>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="copyright w3-center" >
+                       VoteOut v2.0.0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 

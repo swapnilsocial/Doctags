@@ -4,25 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Swapnilsocial">
-<link rel="stylesheet" href="{{ url_for('static',filename='tagcloud.css')}}">
+ <link rel="stylesheet" href="{{ url_for('static',filename='formats.css')}}">
+<link rel="stylesheet"  type="text/css" href="{{ url_for('static', filename='tagcloud.css')}}">
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <style>
-body, html {
-  height: 100%;
-  font-family: 'Josefin Sans', sans-serif;
-  overflow-x: hidden;
-}
-
-.bgimg {
-  background-position: center;
-  background-size: cover;
-  background-image: url("static/logo.png");
-  min-height: 75%;
-}
-
-.menu {
-  display: none;
-}
 </style>
 
 <head>
@@ -30,11 +15,35 @@ body, html {
 </head>
 <body>
 
+<div>
+
 <ul class="cloud" role="navigation" aria-label="Webdev word cloud">
 
 DOCTAG_TOKEN_TO_BE_REPLACED
 
 </ul>
+
+</div>
+<!-- Footer -->
+<div>
+</div>
+   <footer class="footer footer-default" id="aboutus" >
+        <div class="container">
+            <div class="copyright w3-center">
+  <p>Author: Swapnil Joshi<br>
+  <a href="mailto:swapniljoshisj20@gmail.com">swapniljoshisj20@gmail.com</a><br>
+  <a href="https://github.com/swapnilsocial">swapnilsocial@github</a><br>
+  <a href="https://www.linkedin.com/in/swapnilsocial">swapnilsocial@linkedin</a></p>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="copyright w3-center" >
+                       VoteOut v2.0.0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 
