@@ -8,8 +8,8 @@ from nltk.tokenize import word_tokenize
 threshold = 4
 limit = 100
 USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
-base_template = os.path.join(USER_FOLDER + "/static", "tagcloud_template.html")
-final_template = os.path.join(USER_FOLDER + "/static/saved_doctags", "tagcloud.html")
+base_template = os.path.join(USER_FOLDER + "/templates", "tagcloud_template.html")
+final_template = os.path.join(USER_FOLDER + "/templates/saved_doctags", "tagcloud.html")
 
 
 # defining the replace method
