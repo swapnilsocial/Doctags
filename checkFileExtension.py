@@ -36,6 +36,18 @@ def categorize(path):
             only_fn = os.path.split(f)
             the_path, the_filename = only_fn
             fn, fext = split_name_ext(f)
+            print(fn, fext)
+            if fext == '.txt':
+                p,t = th.txt_tokenize(f)
+                print(p, t)
+            elif fext == '.pdf':
+                p, t = th.pdf_tokenize(f)
+                print(p, t)
+            elif fext == '.docx':
+                p, t = th.docx_tokenize(f)
+                print(p, t)
+            else:
+                print('badfile : {}'.format(f))
             # create folders and add files
             dirc = os.path.join(parent_dir, fext[1:].lower())
             if os.path.isdir(dirc):
@@ -45,7 +57,9 @@ def categorize(path):
                 os.mkdir(dirc)
                 os.rename(f, dirc + '/' + the_filename)
                 print('Moved file ' + f + ' to ' + dirc + '/' + the_filename)
-
+    # dpath = parent_dir + '/doc/'
+    # for f in os.listdir(dpath):
+    #     os.rename(parent_dir + '/doc/' + f, parent_dir + '/docx/' + f)
 
 # to be called from the main file
 categorize(data_path)

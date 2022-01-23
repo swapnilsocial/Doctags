@@ -1,13 +1,21 @@
+import re
 import os
 import shutil
+import textract
 from collections import OrderedDict
 from random import shuffle as shuf
-import re
+from tika import parser
 from nltk.tokenize import word_tokenize
+
 
 threshold = 4
 limit = 100
 USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
+data_path = '/home/swapnil/github/Doctags/data/sampledata/'
+pdf_path = os.path.dirname(USER_FOLDER + "/data/pdf/")
+docx_path = os.path.dirname(USER_FOLDER + "/data/docx/")
+doc_path = os.path.dirname(USER_FOLDER + "/data/doc/")
+txt_path = os.path.dirname(USER_FOLDER + "/data/txt/")
 base_template = os.path.join(USER_FOLDER + "/templates", "tagcloud_template.html")
 final_template = os.path.join(USER_FOLDER + "/templates/saved_doctags", "tagcloud.html")
 
@@ -53,10 +61,8 @@ def remove_stopwords(text):
     return filtered_sentence
 
 
-def parse_text_file(input_file):
-    with open(r'{}'.format(input_file)) as filedata:
-        contents = filedata.read().lower()
-    content_without_stopwords = remove_stopwords(contents)
+def parse_file(content):
+    content_without_stopwords = remove_stopwords(content)
     occurrence = wordcount(content_without_stopwords)
     if len(occurrence) < 100:
         final_dict = OrderedDict(sorted(occurrence.items(), key=lambda x: x[1], reverse=True))
@@ -84,7 +90,30 @@ def parse_text_file(input_file):
     # replace tag_list with DOCTAG_TOKEN_TO_BE_REPLACED in tagcloud_template.html and store in static/saved_doctags
     shutil.copy(base_template, final_template)
     replace(final_template, 'DOCTAG_TOKEN_TO_BE_REPLACED', tags_list)
+    return final_dict
 
 
 # calling the parse function for text files
-parse_text_file('/home/swapnil/github/Doctags/data/txt/test_3.txt')
+def txt_tokenize(path_to_file):
+    with open(r'{}'.format(path_to_file)) as filedata:
+        text = filedata.read().lower()
+        # text = my_text.decode("utf-8")
+    token_dict = parse_file(text)
+    return path_to_file, token_dict
+
+
+# calling the parse function for pdf files
+def pdf_tokenize(path_to_file):
+    file_data = parser.from_file(path_to_file)
+    text = file_data['content']
+    # text = my_text.decode("utf-8")
+    token_dict = parse_file(text)
+    return path_to_file, token_dict
+
+
+# calling the parse function for docx files
+def docx_tokenize(path_to_file):
+    text = textract.process(path_to_file)
+    text = text.decode("utf-8")
+    token_dict = parse_file(text)
+    return path_to_file, token_dict
