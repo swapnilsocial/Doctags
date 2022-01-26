@@ -1,7 +1,9 @@
 import os
+import threshold as th
 
-parent_dir = '/home/swapnil/github/Doctags/data'
-data_path = '/home/swapnil/github/Doctags/data/sampledata'
+USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(USER_FOLDER + "/data/")
+data_path = os.path.dirname(USER_FOLDER + "/data/sampledata/")
 
 
 def split_name_ext(filename):

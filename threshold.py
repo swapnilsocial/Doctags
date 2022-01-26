@@ -4,14 +4,13 @@ import shutil
 import textract
 from collections import OrderedDict
 from random import shuffle as shuf
-from tika import parser
 from nltk.tokenize import word_tokenize
 
 
 threshold = 4
 limit = 100
 USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
-data_path = '/home/swapnil/github/Doctags/data/sampledata/'
+data_path = os.path.dirname(USER_FOLDER + "data/sampledata/")
 pdf_path = os.path.dirname(USER_FOLDER + "/data/pdf/")
 docx_path = os.path.dirname(USER_FOLDER + "/data/docx/")
 doc_path = os.path.dirname(USER_FOLDER + "/data/doc/")
