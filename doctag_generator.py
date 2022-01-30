@@ -2,6 +2,7 @@ import os
 import threshold as th
 import json
 import nltk
+
 nltk.download('punkt')
 
 USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -10,6 +11,8 @@ data_path = os.path.dirname(USER_FOLDER + "/data/sampledata/")
 path_to_store = os.path.dirname(USER_FOLDER + "/static/jsons/")
 
 
+# this function will split the filename and extension
+
 def split_name_ext(filename):
     split_tup = os.path.splitext(filename)
     file_name = split_tup[0]
@@ -17,6 +20,7 @@ def split_name_ext(filename):
     return file_name, file_extension
 
 
+# this function loops through all directories and fetches all files in provided path
 def fetch_all_files(dir_name):
     listOfFile = os.listdir(dir_name)
     allFiles = list()
@@ -33,6 +37,7 @@ def fetch_all_files(dir_name):
     return allFiles
 
 
+# this function creates a json document of the file with tokens and properties and loads to elasticsearch
 def doc_create(path, fname, fext, status, tokens):
     data = {
         "filename": fname + fext,
@@ -47,7 +52,8 @@ def doc_create(path, fname, fext, status, tokens):
     with open(file, 'w') as outfile:
         outfile.write(json_string)
     print(json_string)
-    os.system("""curl -XPOST "http://localhost:9200/doctags/_doc/""" + fname + """/" -H 'Content-Type: application/json' -d @""" + file)
+    os.system(
+        """curl -XPOST "http://localhost:9200/doctags/_doc/""" + fname + """/" -H 'Content-Type: application/json' -d @""" + file)
     mytokenlist = []
     for k, v in tokens.items():
         for i in range(0, v):
@@ -58,8 +64,12 @@ def doc_create(path, fname, fext, status, tokens):
     tfile = path_to_store + fname + '_tokens.json'
     with open(tfile, 'w') as outfile:
         outfile.write(tdata)
-    os.system("""curl -XPOST "http://localhost:9200/token/_doc/token_""" + fname + """/" -H 'Content-Type: application/json' -d @""" + tfile)
+    os.system(
+        """curl -XPOST "http://localhost:9200/token/_doc/token_""" + fname + """/" -H 'Content-Type: application/json' -d @""" + tfile)
 
+
+# this function calls threshold module and helps to create the categories and tokens for each file based on file
+# extension
 
 def categorize(path):
     if len(os.listdir(path)) == 0:
@@ -72,7 +82,7 @@ def categorize(path):
             fn, fext = split_name_ext(the_filename)
             print(fn, fext, the_path, the_filename)
             if fext == '.txt':
-                p,t = th.txt_tokenize(f)
+                p, t = th.txt_tokenize(f)
                 print(p, t)
                 status = "parsed"
             elif fext == '.pdf':
@@ -91,7 +101,7 @@ def categorize(path):
             dirc = os.path.join(parent_dir, fext[1:].lower())
             if os.path.isdir(dirc):
                 os.rename(f, dirc + '/' + the_filename)
-                print('Moved file '+ f + ' to ' + dirc + '/' + the_filename)
+                print('Moved file ' + f + ' to ' + dirc + '/' + the_filename)
             else:
                 os.mkdir(dirc)
                 os.rename(f, dirc + '/' + the_filename)
@@ -100,7 +110,7 @@ def categorize(path):
 
     return "the program has run successfully"
 
+
 # to be called from the main file
 if __name__ == '__main__':
     categorize(data_path)
-

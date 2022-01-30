@@ -5,18 +5,18 @@ app = Flask(__name__)
 
 USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
-# Landing Page
+# Landing Page for templates
 @app.route('/tagcloud_template', methods=['POST', 'GET'])
 def index():
     return render_template('tagcloud_template.html')
 
-# Landing Page
+# Landing Page for tagcloud doc
 @app.route('/tagcloud', methods=['POST', 'GET'])
 def tagcloud():
     page = '/saved_doctags/tagcloud.html'
     return render_template(page)
 
-#
+# home to check server status
 @app.route('/')
 def server_status():
     return "Server is up and running!"
