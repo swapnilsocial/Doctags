@@ -1,11 +1,11 @@
 import re
 import os
 import shutil
-import textract
 from collections import OrderedDict
 from random import shuffle as shuf
-from nltk.tokenize import word_tokenize
 
+import textract
+from nltk.tokenize import word_tokenize
 
 threshold = 4
 limit = 100
@@ -92,27 +92,29 @@ def parse_file(content):
     return final_dict
 
 
+
 # calling the parse function for text files
 def txt_tokenize(path_to_file):
     with open(r'{}'.format(path_to_file)) as filedata:
         text = filedata.read().lower()
         # text = my_text.decode("utf-8")
     token_dict = parse_file(text)
+
     return path_to_file, token_dict
 
 
 # calling the parse function for pdf files
 def pdf_tokenize(path_to_file):
-    file_data = parser.from_file(path_to_file)
-    text = file_data['content']
-    # text = my_text.decode("utf-8")
-    token_dict = parse_file(text)
+    # file_data = parser.from_file(path_to_file)
+    # text = file_data['content']
+    # # text = my_text.decode("utf-8")
+    # token_dict = parse_file(text)
     return path_to_file, token_dict
 
 
 # calling the parse function for docx files
 def docx_tokenize(path_to_file):
-    text = textract.process(path_to_file)
-    text = text.decode("utf-8")
-    token_dict = parse_file(text)
+    # text = textract.process(path_to_file)
+    # text = text.decode("utf-8")
+    # token_dict = parse_file(text)
     return path_to_file, token_dict
