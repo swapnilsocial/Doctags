@@ -46,7 +46,19 @@ def doc_create(path, fname, fext, status, tokens):
     file = path_to_store + '/' + fname + '.json'
     with open(file, 'w') as outfile:
         outfile.write(json_string)
-    os.system("""curl -XPOST "http://localhost:9200/doctags/_doc" -H 'Content-Type: application/json' -d @""" + file)
+    print(json_string)
+    os.system("""curl -XPOST "http://localhost:9200/doctags/_doc/""" + fname + """/" -H 'Content-Type: application/json' -d @""" + file)
+    mytokenlist = []
+    for k, v in tokens.items():
+        for i in range(0, v):
+            mytokenlist.append(k)
+    print(mytokenlist)
+    token_dict = {"tokens": mytokenlist}
+    tdata = json.dumps(token_dict)
+    tfile = path_to_store + fname + '_tokens.json'
+    with open(tfile, 'w') as outfile:
+        outfile.write(tdata)
+    os.system("""curl -XPOST "http://localhost:9200/token/_doc/token_""" + fname + """/" -H 'Content-Type: application/json' -d @""" + tfile)
 
 
 def categorize(path):
