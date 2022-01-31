@@ -61,7 +61,7 @@ def doc_create(path, fname, fext, status, tokens):
     print(mytokenlist)
     token_dict = {"tokens": mytokenlist}
     tdata = json.dumps(token_dict)
-    tfile = path_to_store + fname + '_tokens.json'
+    tfile = path_to_store + '/' + fname + '_tokens.json'
     with open(tfile, 'w') as outfile:
         outfile.write(tdata)
     os.system(

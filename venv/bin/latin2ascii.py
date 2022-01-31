@@ -1,4 +1,4 @@
-#!/home/swapnil/github/Doctags/venv/bin/python
+#!/home/swap/swapnilsocial/Doctags/venv/bin/python
 
 #
 #  latin2ascii.py - converts latin1 characters into ascii.

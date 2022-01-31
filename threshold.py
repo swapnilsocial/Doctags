@@ -1,10 +1,10 @@
-import re
 import os
+import re
 import shutil
 from collections import OrderedDict
 from random import shuffle as shuf
-
-import textract
+import PyPDF2
+import docx
 from nltk.tokenize import word_tokenize
 
 threshold = 4
@@ -104,17 +104,25 @@ def txt_tokenize(path_to_file):
 
 
 # calling the parse function for pdf files
-def pdf_tokenize(path_to_file):
-    # file_data = parser.from_file(path_to_file)
-    # text = file_data['content']
-    # # text = my_text.decode("utf-8")
-    # token_dict = parse_file(text)
-    return path_to_file, token_dict
 
+def pdf_tokenize(path_to_file):
+    with open(path_to_file, 'rb') as pdf_file:
+        pdfReader = PyPDF2.PdfFileReader(pdf_file)
+        numOfPages = pdfReader.getNumPages()
+        file_data = ''''''
+        for i in range(0, numOfPages):
+            pageObj = pdfReader.getPage(i)
+            file_data = file_data + pageObj.extractText()
+        text = file_data
+        token_dict = parse_file(text)
+        return path_to_file, token_dict
 
 # calling the parse function for docx files
 def docx_tokenize(path_to_file):
-    # text = textract.process(path_to_file)
+    doc = docx.Document(path_to_file)  # Creating word reader object.
+    text = ''''''
+    for para in doc.paragraphs:
+        text = text + " " + para.text
     # text = text.decode("utf-8")
-    # token_dict = parse_file(text)
+    token_dict = parse_file(text)
     return path_to_file, token_dict

@@ -1,3 +1,4 @@
+#!/home/swap/swapnilsocial/Doctags/venv/bin/python
 """Extract pdf structure in XML format"""
 import logging
 import os.path
@@ -5,8 +6,7 @@ import re
 import sys
 from argparse import ArgumentParser
 
-import six
-
+import pdfminer
 from pdfminer.pdfdocument import PDFDocument, PDFNoOutlines
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
@@ -21,7 +21,7 @@ ESC_PAT = re.compile(r'[\000-\037&<>()"\042\047\134\177-\377]')
 
 
 def e(s):
-    if six.PY3 and isinstance(s, six.binary_type):
+    if isinstance(s, bytes):
         s = str(s, 'latin-1')
     return ESC_PAT.sub(lambda m: '&#%d;' % ord(m.group(0)), s)
 
@@ -33,7 +33,7 @@ def dumpxml(out, obj, codec=None):
 
     if isinstance(obj, dict):
         out.write('<dict size="%d">\n' % len(obj))
-        for (k, v) in six.iteritems(obj):
+        for (k, v) in obj.items():
             out.write('<key>%s</key>\n' % k)
             out.write('<value>')
             dumpxml(out, v)
@@ -49,7 +49,7 @@ def dumpxml(out, obj, codec=None):
         out.write('</list>')
         return
 
-    if isinstance(obj, (six.string_types, six.binary_type)):
+    if isinstance(obj, ((str,), bytes)):
         out.write('<string size="%d">%s</string>' % (len(obj), e(obj)))
         return
 
@@ -100,11 +100,13 @@ def dumpallobjs(out, doc, codec=None):
     out.write('<pdf>')
     for xref in doc.xrefs:
         for objid in xref.get_objids():
-            if objid in visited: continue
+            if objid in visited:
+                continue
             visited.add(objid)
             try:
                 obj = doc.getobj(objid)
-                if obj is None: continue
+                if obj is None:
+                    continue
                 out.write('<object id="%d">\n' % objid)
                 dumpxml(out, obj, codec=codec)
                 out.write('\n</object>\n\n')
@@ -120,8 +122,8 @@ def dumpoutline(outfp, fname, objids, pagenos, password='',
     fp = open(fname, 'rb')
     parser = PDFParser(fp)
     doc = PDFDocument(parser, password)
-    pages = dict((page.pageid, pageno) for (pageno, page)
-                 in enumerate(PDFPage.create_pages(doc), 1))
+    pages = {page.pageid: pageno for (pageno, page)
+             in enumerate(PDFPage.create_pages(doc), 1)}
 
     def resolve_dest(dest):
         if isinstance(dest, str):
@@ -151,7 +153,7 @@ def dumpoutline(outfp, fname, objids, pagenos, password='',
                         dest = resolve_dest(action['D'])
                         pageno = pages[dest[0].objid]
             s = e(title).encode('utf-8', 'xmlcharrefreplace')
-            outfp.write('<outline level="%r" title="%s">\n' % (level, s))
+            outfp.write('<outline level="{!r}" title="{}">\n'.format(level, s))
             if dest is not None:
                 outfp.write('<dest>')
                 dumpxml(outfp, dest)
@@ -173,36 +175,39 @@ LITERAL_EMBEDDEDFILE = LIT('EmbeddedFile')
 
 def extractembedded(outfp, fname, objids, pagenos, password='',
                     dumpall=False, codec=None, extractdir=None):
-    def extract1(obj):
-        filename = os.path.basename(obj['UF'] or obj['F'])
-        fileref = obj['EF']['F']
+    def extract1(objid, obj):
+        filename = os.path.basename(obj.get('UF') or obj.get('F').decode())
+        fileref = obj['EF'].get('UF') or obj['EF'].get('F')
         fileobj = doc.getobj(fileref.objid)
         if not isinstance(fileobj, PDFStream):
-            raise PDFValueError(
-                'unable to process PDF: reference for %r is not a PDFStream' %
-                (filename))
+            error_msg = 'unable to process PDF: reference for %r is not a ' \
+                        'PDFStream' % filename
+            raise PDFValueError(error_msg)
         if fileobj.get('Type') is not LITERAL_EMBEDDEDFILE:
             raise PDFValueError(
-                'unable to process PDF: reference for %r is not an EmbeddedFile' %
-                (filename))
-        path = os.path.join(extractdir, filename)
+                'unable to process PDF: reference for %r '
+                'is not an EmbeddedFile' % (filename))
+        path = os.path.join(extractdir, '%.6d-%s' % (objid, filename))
         if os.path.exists(path):
             raise IOError('file exists: %r' % path)
         print('extracting: %r' % path)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         out = open(path, 'wb')
         out.write(fileobj.get_data())
         out.close()
         return
 
-    fp = open(fname, 'rb')
-    parser = PDFParser(fp)
-    doc = PDFDocument(parser, password)
-    for xref in doc.xrefs:
-        for objid in xref.get_objids():
-            obj = doc.getobj(objid)
-            if isinstance(obj, dict) and obj.get('Type') is LITERAL_FILESPEC:
-                extract1(obj)
-    fp.close()
+    with open(fname, 'rb') as fp:
+        parser = PDFParser(fp)
+        doc = PDFDocument(parser, password)
+        extracted_objids = set()
+        for xref in doc.xrefs:
+            for objid in xref.get_objids():
+                obj = doc.getobj(objid)
+                if objid not in extracted_objids and isinstance(obj, dict) \
+                        and obj.get('Type') is LITERAL_FILESPEC:
+                    extracted_objids.add(objid)
+                    extract1(objid, obj)
     return
 
 
@@ -239,6 +244,9 @@ def create_parser():
     parser.add_argument('files', type=str, default=None, nargs='+',
                         help='One or more paths to PDF files.')
 
+    parser.add_argument(
+        "--version", "-v", action="version",
+        version="pdfminer.six v{}".format(pdfminer.__version__))
     parser.add_argument(
         '--debug', '-d', default=False, action='store_true',
         help='Use debug logging level.')
@@ -315,8 +323,6 @@ def main(argv=None):
         pagenos = set()
 
     password = args.password
-    if six.PY2 and sys.stdin.encoding:
-        password = password.decode(sys.stdin.encoding)
 
     if args.raw_stream:
         codec = 'raw'
