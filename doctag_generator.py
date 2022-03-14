@@ -2,12 +2,15 @@ import os
 import threshold as th
 import json
 import nltk
+import datetime
 
 nltk.download('punkt')
 
 USER_FOLDER = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.dirname(USER_FOLDER + '/uploads/')
 parent_dir = os.path.dirname(USER_FOLDER + "/data/")
-data_path = os.path.dirname(USER_FOLDER + "/data/sampledata/")
+# data_path = os.path.dirname(USER_FOLDER + "/data/sampledata/")
+data_path = UPLOAD_FOLDER
 path_to_store = os.path.dirname(USER_FOLDER + "/static/jsons/")
 
 
@@ -39,11 +42,18 @@ def fetch_all_files(dir_name):
 
 # this function creates a json document of the file with tokens and properties and loads to elasticsearch
 def doc_create(path, fname, fext, status, tokens):
+    ct = str(datetime.datetime.now())
+    mytokenlist = []
+    for k, v in tokens.items():
+        for i in range(0, v):
+            mytokenlist.append(k)
+
     data = {
         "filename": fname + fext,
         "format": fext,
         "location": path,
-        "tokens": tokens,
+        "tokens": mytokenlist,
+        "time": ct,
         "status": status
     }
     json_string = json.dumps(data)
@@ -54,10 +64,6 @@ def doc_create(path, fname, fext, status, tokens):
     print(json_string)
     os.system(
         """curl -XPOST "http://localhost:9200/doctags/_doc/""" + fname + """/" -H 'Content-Type: application/json' -d @""" + file)
-    mytokenlist = []
-    for k, v in tokens.items():
-        for i in range(0, v):
-            mytokenlist.append(k)
     print(mytokenlist)
     token_dict = {"tokens": mytokenlist}
     tdata = json.dumps(token_dict)
@@ -93,6 +99,8 @@ def categorize(path):
                 p, t = th.docx_tokenize(f)
                 print(p, t)
                 status = "parsed"
+            elif fext == '.json':
+                print("pass")
             else:
                 print('bad file : {}'.format(f))
                 t = 'NA'
@@ -112,5 +120,5 @@ def categorize(path):
 
 
 # to be called from the main file
-if __name__ == '__main__':
-    categorize(data_path)
+# if __name__ == '__main__':
+#     categorize(data_path)
