@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends 
+    && apt-get install -y curl
 
 WORKDIR /app
 
@@ -11,8 +11,8 @@ RUN pip install -r requirements.txt
 # Copy our code from the current folder to /app inside the container
 COPY . .
 
-# Make port 8090 available for links and/or publish
-EXPOSE 8090
+# Make port 8030 available for links and/or publish
+EXPOSE 8030
 
 # Define our command to be run when launching the container
 CMD ["/app/server.py"]

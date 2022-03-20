@@ -1,0 +1,30 @@
+################    run es without mounts #######################3
+
+docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:6.8.23
+
+docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" swapnilsocial/es:v1
+
+##############################################################################################
+############################# run es with mounts  ###############################
+
+docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -v /opt/apps/elasticsearch/logs/:/usr/share/elasticsearch/logs -v /opt/apps/elasticsearch/data/:/usr/share/elasticsearch/data  elasticsearch:6.8.23
+
+docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -v /opt/apps/elasticsearch/logs/:/usr/share/elasticsearch/logs -v /opt/apps/elasticsearch/data/:/usr/share/elasticsearch/data  swapnilsocial/es:v1
+
+#############################################################################################
+##################################3 run kibana ####################################3
+docker run -d --name kibana --net elk -p 5601:5601 kibana:6.8.23
+
+docker run -d --name kibana --net elk -p 5601:5601 swapnilsocial/doctag_kibana:v1
+
+#############################################################################################
+##########################query time for posting documents in ES ###########################
+
+curl -XPOST "http://localhost:9200/doctags/_doc" -H 'Content-Type: application/json' -d'
+{"filename": "magic1.txt", "format": ".txt", "location": "/data/sampledata/sample.txt", "tokens": {"computer": 17, "uccel": 14}, "status": "passed"}'
+
+
+
+###############################################################################################3
+#################################3 run the doctags container ##################################
+docker run -d -p 8030:8030 --name=doctags --net elk doctags:v1

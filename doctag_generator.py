@@ -63,7 +63,7 @@ def doc_create(path, fname, fext, status, tokens):
         outfile.write(json_string)
     print(json_string)
     os.system(
-        """curl -XPOST "http://localhost:9200/doctags/_doc/""" + fname + """/" -H 'Content-Type: application/json' -d @""" + file)
+        """curl -XPOST "http://elasticsearch:9200/doctags/_doc/""" + fname + """/" -H 'Content-Type: application/json' -d @""" + file)
     print(mytokenlist)
     token_dict = {"tokens": mytokenlist}
     tdata = json.dumps(token_dict)
@@ -71,7 +71,7 @@ def doc_create(path, fname, fext, status, tokens):
     with open(tfile, 'w') as outfile:
         outfile.write(tdata)
     os.system(
-        """curl -XPOST "http://localhost:9200/token/_doc/token_""" + fname + """/" -H 'Content-Type: application/json' -d @""" + tfile)
+        """curl -XPOST "http://elasticsearch:9200/token/_doc/token_""" + fname + """/" -H 'Content-Type: application/json' -d @""" + tfile)
 
 
 # this function calls threshold module and helps to create the categories and tokens for each file based on file
