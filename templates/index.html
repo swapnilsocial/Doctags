@@ -3,25 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-  <title>Upload files with Flask</title>
+  <title>Doctags Generator</title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Swapnilsocial">
+<link rel="stylesheet" href="{{ url_for('static',filename='formats.css')}}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<style>
+body, html {
+  height: 100%;
+  font-family: 'Josefin Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.bgimg {
+  background-position: center;
+  background-size: cover;
+  background-image: url("static/logo.png");
+  min-height: 75%;
+}
+
+.menu {
+  display: none;
+}
+</style>
 </head>
 <body>
-<h1>Upload files<h1>
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+  <div>
+    <span class="w3-text-red" style="font-size:90px"><br></span>
 
-    <form method=post enctype=multipart/form-data>
+<h1 align="center">Upload files</h1>
+
+    <form  method=post enctype=multipart/form-data>
+        <p align="Center"></p>
       <input type=file name=file multiple>
-      <input type=submit value=Upload>
+      <input type=submit value=Upload> </p>
     </form>
-
+<div></div><br></br><br></br>
 {%- if files %}
-  <h2>Files uploaded successfully so far</h2>
+  <h3>Files uploaded successfully so far</h3>
 
   <ul>
   {%- for code, file in files.items() %}
-      <li><a href="http://localhost:5601/app/kibana#/dashboard/afc18cb0-a7b1-11ec-a5a8-8f787e08168d?_g=(filters:!())&_a=(description:'',filters:!(),fullScreenMode:!f,options:(darkTheme:!f,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:29,i:'1',w:37,x:0,y:0),id:'082f4b90-a7b1-11ec-a5a8-8f787e08168d',panelIndex:'1',type:visualization,version:'6.8.23'),(embeddableConfig:(),gridData:(h:29,i:'2',w:11,x:37,y:0),id:'78dc8290-a7b1-11ec-a5a8-8f787e08168d',panelIndex:'2',type:visualization,version:'6.8.23')),query:(language:kuery,query:''),timeRestore:!f,title:'Tagcloud%20dashboard',viewMode:view)">{{ file }}</a></li>
+      <li><a href="http://localhost:5601/app/kibana#/dashboard/afc18cb0-a7b1-11ec-a5a8-8f787e08168d?_g=(filters:!())&_a=(description:'',filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:a3fcd020-a7b0-11ec-a5a8-8f787e08168d,key:filename.keyword,negate:!f,params:(query:{{ file }},type:phrase),type:phrase,value:{{ file }}),query:(match:(filename.keyword:(query:{{ file }},type:phrase))))),fullScreenMode:!f,options:(darkTheme:!f,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:29,i:'1',w:37,x:0,y:0),id:'082f4b90-a7b1-11ec-a5a8-8f787e08168d',panelIndex:'1',type:visualization,version:'6.8.23'),(embeddableConfig:(),gridData:(h:29,i:'2',w:11,x:37,y:0),id:'78dc8290-a7b1-11ec-a5a8-8f787e08168d',panelIndex:'2',type:visualization,version:'6.8.23')),query:(language:kuery,query:''),timeRestore:!f,title:'Tagcloud%20dashboard',viewMode:view)">{{ file }}</a></li>
   {% endfor %}
   </ul>
 {% endif %}
+    <br></br>
+<li><a href="http://localhost:5601/app/kibana#/dashboard/afc18cb0-a7b1-11ec-a5a8-8f787e08168d?_g=(filters:!())&_a=(description:'',filters:!(),fullScreenMode:!f,options:(darkTheme:!f,hidePanelTitles:!f,useMargins:!t),panels:!((embeddableConfig:(),gridData:(h:29,i:'1',w:37,x:0,y:0),id:'082f4b90-a7b1-11ec-a5a8-8f787e08168d',panelIndex:'1',type:visualization,version:'6.8.23'),(embeddableConfig:(),gridData:(h:29,i:'2',w:11,x:37,y:0),id:'78dc8290-a7b1-11ec-a5a8-8f787e08168d',panelIndex:'2',type:visualization,version:'6.8.23')),query:(language:kuery,query:''),timeRestore:!f,title:'Tagcloud%20dashboard',viewMode:view)">Tags from all documents</a></li>
+  </div>
+  <div class="w3-display-bottommiddle w3-center">
+  </div>
+</header>
+<!-- End page content -->
+</div>
 
+<!-- Footer -->
+
+</div>
+   <footer class="footer footer-default" id="aboutus" >
+        <div class="container">
+            <div class="copyright w3-center">
+  <p align="center">Author: Swapnil Joshi<br>
+  <a href="mailto:swapniljoshisj20@gmail.com">swapniljoshisj20@gmail.com</a><br>
+  <a href="https://github.com/swapnilsocial">swapnilsocial@github</a><br>
+  <a href="https://www.linkedin.com/in/swapnilsocial">swapnilsocial@linkedin</a></p>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div align="center" class="copyright w3-center" >
+                       Doctags v1.0.0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
