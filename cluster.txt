@@ -2,7 +2,7 @@
 
 docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:6.8.23
 
-docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" swapnilsocial/es:v1
+docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" swapnilsocial/es:v1.01
 
 ##############################################################################################
 ############################# run es with mounts  ###############################
@@ -15,7 +15,7 @@ docker run -d --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 -e "disco
 ##################################3 run kibana ####################################3
 docker run -d --name kibana --net elk -p 5601:5601 kibana:6.8.23
 
-docker run -d --name kibana --net elk -p 5601:5601 swapnilsocial/doctag_kibana:v1
+docker run -d --name kibana --net elk -p 5601:5601 swapnilsocial/doctag_kibana:v1.01
 
 #############################################################################################
 ##########################query time for posting documents in ES ###########################
@@ -27,4 +27,4 @@ curl -XPOST "http://localhost:9200/doctags/_doc" -H 'Content-Type: application/j
 
 ###############################################################################################3
 #################################3 run the doctags container ##################################
-docker run -d -p 8030:8030 --name=doctags --net elk doctags:v1
+docker run -d -p 8030:8030 --name=doctags --net elk swapnilsocial/doctags:v1.01
