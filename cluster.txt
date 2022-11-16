@@ -31,4 +31,4 @@ curl -XPOST "http://localhost:9200/doctags/_doc" -H 'Content-Type: application/j
 
 ###############################################################################################3
 #################################3 run the doctags container ##################################
-docker run -d -p 8030:8030 --name=doctags --net elk swapnilsocial/doctags:v1.02
+docker run -d -p 8030:8030 --name=doctags --net elk swapnilsocial/doctags:v1.03
